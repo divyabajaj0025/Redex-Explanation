@@ -11,10 +11,10 @@ data Direction = Up
 -----------------------------------------------------------------------------------------------------------------------------------------------
 --Creating views
 
-views :: Expr -> G
-views e = evaluate e possRedex
+views :: Expr -> Order -> (G -> b) -> b
+views e f g = g $ evaluate e f
 -----------------------------------------------------------------------------------------------------------------------------------------------
-evaluate :: Expr -> Reduce -> G
+evaluate :: Expr -> Order -> G
 evaluate e = toGraph e
 
 input :: G -> Expr
@@ -29,8 +29,8 @@ path x (xs, ys) = undefined-}
 context :: Node -> Direction -> G -> G
 context i Up (ns,es)   = (map ((existsNode ns) . fst) (inEdge es i), map snd (inEdge es i))
 context i Down (ns,es) = (map ((existsNode ns) . fst) (outEdge es i), map snd (outEdge es i))
-{-
-confluence :: G -> Bool
+
+{-confluence :: G -> Bool
 confluence (_, es) = undefined
 
 f :: [LEdge] -> [Node]
@@ -38,8 +38,8 @@ f [] = []
 f ((x,y,r):es) = case outEdge es y of
                       [] -> y : f es
                       (x:xs) | map snd (x:xs) == (alphaEdge . map snd) (x:xs) -> y : f es
-                             | otherwise -> f es-}
-
+                             | otherwise -> f es
+-}
 alphaconfluence :: G -> [(Expr, Relation, Expr)]
 alphaconfluence (ns, es) = [((snd . (existsNode ns))x, r, (snd . (existsNode ns))y)|(x,y,r) <- alphaEdge es]
 

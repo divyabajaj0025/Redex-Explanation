@@ -1,7 +1,7 @@
 module Expr where
 import Data.Set
 type Var = String
-type Reduce = (Expr -> [Expr])
+type Order = (Expr -> [Expr])
 data Expr = Ref Var
             |App Expr Expr
             |Abs Var Expr

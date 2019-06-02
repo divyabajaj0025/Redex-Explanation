@@ -3,7 +3,7 @@ import Expr
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 --Order for evaluation
-applicativeRedex :: Reduce
+applicativeRedex :: Order
 applicativeRedex e@(App (Abs _ e1) e2) = case applicativeRedex e1 of
                                                  [] -> case applicativeRedex e2 of
                                                                [] -> [e]

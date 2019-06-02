@@ -9,13 +9,13 @@ import qualified Data.Tuple as T
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Finding all the possible redexes of an expression
-possRedex :: Expr -> [Expr]
+possRedex :: Order
 possRedex e@(App (Abs _ e1) e2) = e : possRedex e1 ++ possRedex e2
 possRedex (App e1 e2)           = possRedex e1 ++ possRedex e2
 possRedex (Abs _ e)             = possRedex e
 possRedex (Ref _)               = []
 ----------------------------------------------------------------------------------------------------------------------------------------------
-toGraph ::  Expr -> F -> G
+toGraph ::  Expr -> Order -> G
 toGraph e f = case catlist ys of
                 (z : zs) -> let (e', ns, es) = nodups e ys [(1,e)] [] in let (ns', es') = eval' e' f (ns, es) in (reverse ns', (unique . alpha ns') es')
                 []       -> let (ns, es) = eval' e f ([(1,e)], []) in (reverse ns, (unique . alpha ns) es)
@@ -23,12 +23,12 @@ toGraph e f = case catlist ys of
             ys = dups xs xs
 ------------------------------------------------------------------------------------------------------------------------------------
 -- Creating Graph
-eval' :: Expr -> F -> G -> G
+eval' :: Expr -> Order -> G -> G
 eval' e f (xs, ys) = graph ps f (ls, es ++ zipWith (\p r -> gedges e p r ls) ps rs)
      where (ps, ns, es, rs) = evalExpr e f xs ys
            ls = gnodes ns ps
 
-graph :: [Expr] -> F -> G -> G
+graph :: [Expr] -> Order -> G -> G
 graph [] f p       = p
 graph (e : es) f p = graph es f (eval' e f p)
 

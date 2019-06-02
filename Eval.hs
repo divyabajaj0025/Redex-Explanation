@@ -35,7 +35,7 @@ substitute v (App e1 e2) e = let e' = substitute v e1 e
 -------------------------------------------------------------------------------------------------------------------------------
 -- Children for each redex
 type Result = ([Expr], [LNode], [LEdge], [(Expr, Expr)])
-evalExpr :: Expr -> F -> [LNode] -> [LEdge] -> Result
+evalExpr :: Expr -> Order -> [LNode] -> [LEdge] -> Result
 evalExpr e f ns es = med e ps [] ns es []
      where ps = f e
 
