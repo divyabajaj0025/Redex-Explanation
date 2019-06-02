@@ -3,7 +3,7 @@ import Expr
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 --Order for evaluation
-normalRedex :: F
+normalRedex :: Reduce
 normalRedex e@(App (Abs _ _) _) = [e]
 normalRedex (App e1 e2) = case (normalRedex e1) of
                                []       -> normalRedex e2
