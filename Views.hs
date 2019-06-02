@@ -14,7 +14,7 @@ data Direction = Up
 views :: Expr -> G
 views e = evaluate e possRedex
 -----------------------------------------------------------------------------------------------------------------------------------------------
-evaluate :: Expr -> F -> G
+evaluate :: Expr -> Reduce -> G
 evaluate e = toGraph e
 
 input :: G -> Expr
