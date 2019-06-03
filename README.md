@@ -10,7 +10,7 @@ Expr - To define the syntax for Lambda expressions.<br/>
 Graph - To define the structure of Graphs. Nodes store expressions and Edges between 2 nodes store the relation between the two expressions represented by the nodes(Beta-reduction and Alpha-equivalence)<br/>
 Eval - To evaluate a single expression and output the next expressions it reduces to.<br/>
 Capture - To check for Variable capture and avoid it.<br/>
-Alpha - To check if two nodes in the graph are alpha confluent and produce unidirectional edges between them to relate them. This is more useful when we do not define a reduction sequence and produce a N-degree graph.<br/>
+Alpha - To check if two nodes in the graph are alpha confluent and connect them through unidirectional edges between them. This is more useful when we do not define a reduction sequence and produce a N-degree graph.<br/>
 Reduce - To produce a graph as output. It recurses on each eval sequence. Eval produces one step of the recursion that is a node and its children. Reduce recurses on it to create a complete sequence(graph in case of no reduction order)<br/>
 
 To run this project. Commands:<br/>
