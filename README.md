@@ -15,8 +15,8 @@ It is extensibility in the terms of defining a new order. A template to define a
 * Views – To produce an evaluation graph and create explanation views on that Graph.
 * NewViews - To add new views modularly without editing the existing ones.
 
-To run this project. Commands:<br/>
-ghci Views.hs<br/>
+#### To run this project. Commands:<br/>
+>>ghci Views.hs<br/>
 (This will load the rest of modules)<br/>
 There are 4 expression examples in the **Test module** (e,e1,e2,e3)<br/>
 To get some views on an expression:<br/>
