@@ -4,7 +4,7 @@ import Graph
 import Reduce
 import Normal
 import Applicative
-
+import Test
 data Direction = Up
                 |Down
           deriving (Eq, Show)
@@ -15,33 +15,40 @@ views :: Expr -> G
 views e = evaluate e possRedex
 -----------------------------------------------------------------------------------------------------------------------------------------------
 evaluate :: Expr -> Order -> G
-evaluate e = toGraph e
+evaluate e f = toGraph e f
 
+-- Input to a Graph
 input :: G -> Expr
 input (((n,x):xs), ys) = x
 
+-- Possible redexes
 redexes :: Expr -> [Expr]
 redexes = possRedex
 
+-- Context -1 and +1
 context :: Node -> Direction -> G -> G
-context i Up (ns,es)   = (map ((existsNode ns) . fst) (inEdge es i), map snd (inEdge es i))
-context i Down (ns,es) = (map ((existsNode ns) . fst) (outEdge es i), map snd (outEdge es i))
+context i Up g   = find i g inEdge
+context i Down g = find i g outEdge
 
-alphaconfluence :: G -> [(Expr, Relation, Expr)]
-alphaconfluence (ns, es) = [((snd . (existsNode ns))x, r, (snd . (existsNode ns))y)|(x,y,r) <- alphaEdge es]
+find :: Node -> G -> ([LEdge] -> Node -> [(Node, LEdge)]) -> G
+find i (ns,es) f = (map ((existsNode ns) . fst) (f es i), map snd (f es i))
 
-alphaEdge :: [LEdge] -> [LEdge]
-alphaEdge []                         = []
-alphaEdge (a@(_,_,AlphaRename _):es) = a : alphaEdge es
-alphaEdge ((_,_,_):es)               = alphaEdge es
-
+-- Finding edges into a node
 inEdge :: [LEdge] -> Node -> [(Node, LEdge)]
 inEdge [] i = []
-inEdge (e@(x,y,xs):es) i = if y == i then (x, e) : inEdge es i else inEdge es i
+inEdge (e@(x,y,xs):es) i
+                  |y == i = (x, e) : inEdge es i
+                  |otherwise = inEdge es i
 
+--Finding edges out from a node
 outEdge :: [LEdge] -> Node -> [(Node, LEdge)]
 outEdge [] i = []
-outEdge (e@(x,y,xs):es) i = if x == i then (y, e) : outEdge es i else outEdge es i
+outEdge (e@(x,y,xs):es) i
+                  |x == i = (y, e) : outEdge es i
+                  |otherwise = outEdge es i
 
+-- Finding a node for the index
 existsNode :: [LNode] ->Node -> LNode
-existsNode (n@(x,y) : ns) i = if x == i then n else existsNode ns i
+existsNode (n@(x,y) : ns) i
+                  |x == i = n
+                  |otherwise = existsNode ns i

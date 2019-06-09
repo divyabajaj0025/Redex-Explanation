@@ -13,15 +13,12 @@ instance Show Expr where
     show (Abs v e) = "\\" ++ v ++ " . " ++ show e
 
 -------------------------------------------------------------------------------------------------------------------------------
--- Example expression
-e :: Expr
-e = Abs "x" (App (Abs "y" (App (Abs "z" (Ref "z")) (Ref "x"))) (Ref "x"))
+--Smart Constructors
+app :: Expr -> Expr -> Expr
+app e1 e2 = App e1 e2
 
-e1 :: Expr
-e1 = App (App (Abs "y" (App (Ref "y") (Ref "y"))) (Ref "z")) (App (Abs "y" (Ref "y")) (Ref "z"))
+abs :: Var -> Expr -> Expr
+abs v e = Abs v e
 
-e2 :: Expr
-e2 = App (App (Abs "y" (Ref "y")) (Ref "z")) (App (Abs "y" (Ref "y")) (Ref "z"))
-
-e3 :: Expr
-e3 = App (Abs "x" (App (App (Abs "y" (Ref "x")) (Ref "z")) (App (Abs "y" (Ref "y")) (Ref "z")))) (Abs "y" (Ref "z"))
+ref :: Var -> Expr
+ref v = Ref v
