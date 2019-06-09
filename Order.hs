@@ -4,6 +4,6 @@ import Views
 import Normal
 import Applicative
 import NewViews
-
-orderRedex :: F
+import Test
+orderRedex :: Order
 orderRedex = normalRedex
