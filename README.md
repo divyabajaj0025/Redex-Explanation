@@ -16,7 +16,7 @@ It is extensibility in the terms of defining a new order. A template to define a
 * NewViews - To add new views modularly without editing the existing ones.
 
 #### To run this project. Commands:<br/>
->>ghci Views.hs<br/>
+>>ghci NewViews.hs<br/>
 (This will load the rest of modules)<br/>
 There are 4 expression examples in the **Test module** (e,e1,e2,e3)<br/>
 To get some views on an expression:<br/>
@@ -52,9 +52,13 @@ Where a complete graph and a path to a node can be computed for the chosen expre
 >>let g = views e3<br/>
 >>context 5 Up g<br/>
 
-###### To check for alphaconfluent nodes<br/>
+###### To check for alpha-equivalent nodes<br/>
 >>let g = views e3<br/>
->>alphaconfluence g<br/>
+>>alphaEquivalent g<br/>
+
+###### To find a path to a Node, i.e. how the original expression was reduced to the final expression.
+>>let g = views e3<br/>
+>>path 8 g
 
 *All of this can also be done for let g = evaluate (some expression) (Some order of reduction)*
 
